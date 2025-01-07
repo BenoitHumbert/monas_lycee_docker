@@ -1,4 +1,4 @@
-version: "3"
+#version: "3"
 services:
   caddy:
     image: caddy:2.8
@@ -13,6 +13,11 @@ services:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./caddy/data:/data
       - ./caddy/config:/config
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"  # Limite la taille de chaque fichier log à 100 Mo
+        max-file: "3"      # Garde seulement les 3 derniers fichiers logs
     
       
   database:
@@ -32,11 +37,11 @@ services:
   #   image: redis:6
 
   directus:
-    image: directus/directus:11.3.5
+    build: ./directus 
     ports:
       - 8055:8055
     volumes:
-      - ./uploads:/directus/uploads
+      - ./directus/uploads:/directus/uploads
       - ./extensions:/directus/extensions
     depends_on:
       # - cache
@@ -72,7 +77,11 @@ services:
       - directus_secret
       - directus_admin_password
       - directus_secret_key
-    
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"  # Limite la taille de chaque fichier log à 100 Mo
+        max-file: "3"      # Garde seulement les 3 derniers fichiers logs
 
     # Environment variables can also be defined in a file (for example `.env`):
     # env_file:

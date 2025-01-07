@@ -1,4 +1,4 @@
-version: "3"
+#version: "3"
 services:
   caddy:
     restart: unless-stopped
@@ -14,7 +14,7 @@ services:
   directus:
     restart: unless-stopped
     volumes:
-      - ./uploads:/directus/uploads
+      - ./directus/uploads:/directus/uploads
      
     depends_on:
       # - cache
