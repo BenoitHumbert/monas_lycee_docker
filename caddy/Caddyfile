@@ -1,4 +1,4 @@
-monaslyceeapp.bhdev.org
+https://monaslyceedirectus.bhdev.org
 
 reverse_proxy http://directus:8055 
 
