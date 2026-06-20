@@ -17,7 +17,6 @@ services:
       
   database:
     image: postgis/postgis:13-master
-    restart: always
     # Required when running on platform other than amd64, like Apple M1/M2:
     # platform: linux/amd64
     volumes:
@@ -33,8 +32,7 @@ services:
   #   image: redis:6
 
   directus:
-    build: ./directus 
-    restart: always
+    image: directus/directus:12.0.2
     ports:
       - 8055:8055
     volumes:
@@ -44,12 +42,13 @@ services:
       # - cache
       - database
     environment:
-      PUBLIC_URL: 'https://monaslyceedirectus.bhdev.org'
+      # PUBLIC_URL: "monaslyceeapp.bhdev.org"
       KEY_FILE: '/run/secrets/directus_secret_key'
-      SECRET_FILE: '/run/secrets/directus_secret'
+      # SECRET_FILE: '/run/secrets/directus_secret'
       CORS_ENABLED: true
       CORS_ORIGIN: '*'
       WEBSOCKETS_ENABLED: true
+      IP_TRUST_PROXY: "true"
       LOG_LEVEL: 'error'
 
       DB_CLIENT: "pg"
